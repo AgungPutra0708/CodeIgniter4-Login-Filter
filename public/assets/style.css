@@ -1,0 +1,27 @@
+.warnaabu{
+	color: #888888!important;
+}
+.warnaijo{
+	color: #66A076!important;
+}
+.warnaijogaris{
+	border-top: 1px solid #66A076!important;
+}
+.rum{
+	font-family: 'Rum Raisin', sans-serif;
+}
+/* Use a media query to add a breakpoint at 800px: */
+@media screen and (max-width: 767px) {
+  .atas {
+    width: 100%;
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 768px) {
+	.atasPhoto{
+  	visibility: hidden;
+  }
+  .atasProfile{
+  	visibility: visible;
+  }
+}

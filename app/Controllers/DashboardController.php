@@ -9,7 +9,11 @@ class DashboardController extends BaseController
 {
     public function index()
     {
-        $data['title'] = 'Dashboard';
-		return view('dashboard/index', $data);
+        if (session()->get('username') != '') {
+            $data['title'] = 'Dashboard';
+            return view('dashboard/index', $data);
+        }else{
+            return redirect('/');
+        }
     }
 }

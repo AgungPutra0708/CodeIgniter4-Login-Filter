@@ -59,7 +59,7 @@
     <hr class="sidebar-divider warnaijogaris">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-      <a class="nav-link" href="<?= base_url('auth/logout') ?>" data-toggle="modal" data-target="#logoutModal">
+      <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
         <i class="fas fa-fw fa-sign-out-alt warnaabu"></i>
         <span class="warnaabu">Keluar</span>
       </a>

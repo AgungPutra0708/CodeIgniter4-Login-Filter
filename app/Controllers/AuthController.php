@@ -9,8 +9,12 @@ class AuthController extends BaseController
 {
     public function index()
     {
-        $data['title'] = 'Login';
-        return view('auth/login', $data);
+        if (session()->get('username') == '') {
+            $data['title'] = 'Login';
+            return view('auth/login', $data);
+        }else{
+            return redirect('dashboard');
+        }
     }
     public function login()
     {
@@ -20,7 +24,6 @@ class AuthController extends BaseController
         $dataUser = $users->where([
             'username' => $username,
         ])->first();
-        if (session()->get('username') == '') {
             if ($dataUser) {
                 if (password_verify((string)$password, $dataUser['password'])) {
                     session()->set([
@@ -36,12 +39,9 @@ class AuthController extends BaseController
                 session()->setFlashdata('error', 'Username & Password Salah');
                 return redirect()->back();
             }
-        }else{
-            return redirect('dashboard');
-        }
     }
     public function logout(){
         session()->destroy();
-        return redirect()->to(base_url('auth'));		
+        return redirect()->to(('/'));		
 	}
 }

@@ -24,36 +24,38 @@ class EmployeeController extends BaseController
     public function create() {
         $validation =  \Config\Services::validation();
         $validation->setRules([
-            'username' => 'required',
-            'file_upload' => 'uploaded[file_upload]|mime_in[file_upload,image/jpg,image/jpeg,image/gif,image/png]|max_size[file_upload,3000]'
+            'name' => 'required',
         ]);
         $isDataValid = $validation->withRequest($this->request)->run();
-        // $upload = $this->request->getFile('file_upload');
-        // $upload->move(WRITEPATH . '../public/assets/img/');
-        $fileImage_name = "";
-        if(isset($_FILES) && @$_FILES['file_upload']['error'] != '4') {
-            if($fileImage = $this->request->getFile('file_upload')) {
-                if (! $fileImage->isValid()) {
-                    throw new \RuntimeException($fileImage->getErrorString().'('.$fileImage->getError().')');
-                } else {            
- 
-                    $fileImage->move(WRITEPATH . '../public/assets/img/');
-                    $fileImage_name = $fileImage->getName();
-                }
-            }
-        }
-
+        
         // jika data valid, simpan ke database
         if($isDataValid){
             $employee = new EmployeeModel();
-            $employee->insert([
-                "name" => $this->request->getPost('name'),
-                "nik" => $this->request->getPost('nik'),
-                "address" => $this->request->getPost('address'),
-                "image" => $fileImage_name,
-                "created_at" => date('Y-m-d H:i:s')
+            $validationFile =  \Config\Services::validation();
+            $validationFile->setRules([
+                'file_upload' => 'uploaded[file_upload]',
             ]);
-            return redirect('employee');
+            $isDataValidFile = $validationFile->withRequest($this->request)->run();
+            if ($isDataValidFile) {
+                $upload = $this->request->getFile('file_upload');
+                $upload->move(WRITEPATH . '../public/assets/img/');
+                $employee->insert([
+                    "name" => $this->request->getPost('name'),
+                    "nik" => $this->request->getPost('nik'),
+                    "address" => $this->request->getPost('address'),
+                    "img" => $upload->getName(),
+                    "created_at" => date('Y-m-d H:i:s')
+                ]);
+                return redirect('employee');
+            }else{
+                $employee->insert([
+                    "name" => $this->request->getPost('name'),
+                    "nik" => $this->request->getPost('nik'),
+                    "address" => $this->request->getPost('address'),
+                    "created_at" => date('Y-m-d H:i:s')
+                ]);
+                return redirect('employee');
+            }
         }
         // tampilkan form create
         return redirect('employee');
@@ -61,34 +63,64 @@ class EmployeeController extends BaseController
     public function edit()
     {
         // ambil artikel yang akan diedit
-        $users = new UserModel();
+        $employee = new EmployeeModel();
         $id = $this->request->getPost('id');
-        $data['users'] = $users->where('id', $id)->first();
         
         // lakukan validasi data artikel
         $validation =  \Config\Services::validation();
         $validation->setRules([
-            'id' => 'required',
-            'username' => 'required'
+            'name' => 'required',
         ]);
         $isDataValid = $validation->withRequest($this->request)->run();
-        $password = $this->request->getPost('password');
-        $p = password_hash((string)$password, PASSWORD_DEFAULT);
+        
         // jika data vlid, maka simpan ke database
         if($isDataValid){
-            $users->update($id, [
-                "password" => $p
+            $validationFile =  \Config\Services::validation();
+            $validationFile->setRules([
+                'file_upload' => 'uploaded[file_upload]',
             ]);
-            return redirect('users');
+            $isDataValidFile = $validationFile->withRequest($this->request)->run();
+            if ($isDataValidFile) {
+                $dt = $employee->where([
+                    'id' => $id,
+                ])->first();
+                $gambar = $dt['img'];
+                $path = '../public/assets/img/';
+                @unlink($path.$gambar);
+                $upload = $this->request->getFile('file_upload');
+                $upload->move(WRITEPATH . '../public/assets/img/');
+                $employee->update($id, [
+                    "name" => $this->request->getPost('name'),
+                    "nik" => $this->request->getPost('nik'),
+                    "address" => $this->request->getPost('address'),
+                    "img" => $upload->getName(),
+                    "created_at" => date('Y-m-d H:i:s')
+                ]);
+                return redirect('employee');
+            }else{
+                $employee->update($id, [
+                    "name" => $this->request->getPost('name'),
+                    "nik" => $this->request->getPost('nik'),
+                    "address" => $this->request->getPost('address'),
+                    "created_at" => date('Y-m-d H:i:s')
+                ]);
+                return redirect('employee');
+            }
         }
 
         // tampilkan form edit
-        return redirect('users');
+        return redirect('employee');
     }
     public function delete(){
-        $users = new UserModel();
+        $employee = new EmployeeModel();
         $id = $this->request->getPost('id');
-        $users->delete($id);
-        return redirect('users');
+        $dt = $employee->where([
+            'id' => $id,
+        ])->first();
+        $gambar = $dt['img'];
+        $path = '../public/assets/img/';
+        @unlink($path.$gambar);
+        $employee->delete($id);
+        return redirect('employee');
     }
 }

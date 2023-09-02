@@ -21,6 +21,7 @@
   <link type="text/css" href="<?= base_url('assets/style.css') ?>" rel="stylesheet">
 
 </head>
+<?php $session = session() ?>
 
 <body id="page-top">
 

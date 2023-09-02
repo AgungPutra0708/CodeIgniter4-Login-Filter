@@ -7,7 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'AuthController::index');
 $routes->add('/auth', 'AuthController::login');
-$routes->get('/auth/logout', 'AuthController::logout');
+$routes->get('/logout', 'AuthController::logout');
 $routes->get('/dashboard', 'DashboardController::index');
 $routes->get('/users', 'UserController::index');
 $routes->add('/users/addUser', 'UserController::create');

@@ -22,4 +22,6 @@
 
 </head>
 
+<?php $session = session() ?>
+
 <body class="bg-gradient" style="background: #AEE8BE">

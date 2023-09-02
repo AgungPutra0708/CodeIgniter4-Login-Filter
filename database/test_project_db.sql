@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Sep 2023 pada 10.57
+-- Waktu pembuatan: 02 Sep 2023 pada 09.44
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.0.25
 
@@ -30,12 +30,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `employee` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `nik` int(16) NOT NULL,
+  `nik` varchar(16) NOT NULL,
   `address` text NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `img` text NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data untuk tabel `employee`
+--
+
+INSERT INTO `employee` (`id`, `name`, `nik`, `address`, `img`, `created_at`, `updated_at`) VALUES
+(1, 'MUHAMMAD AGUNG PUTRA NUGROHO', '3174090708990008', 'PERUM TAMAN ANYELIR 3 BLOK K6 No.10', 'foto ijasah biru.png', '2023-09-02 07:38:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -112,7 +119,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`

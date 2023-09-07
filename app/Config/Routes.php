@@ -8,12 +8,16 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'AuthController::index');
 $routes->add('/auth', 'AuthController::login');
 $routes->get('/logout', 'AuthController::logout');
-$routes->get('/dashboard', 'DashboardController::index');
-$routes->get('/users', 'UserController::index');
-$routes->add('/users/addUser', 'UserController::create');
-$routes->add('/users/editUser', 'UserController::edit');
-$routes->add('/users/deleteUser', 'UserController::delete');
-$routes->get('/employee', 'EmployeeController::index');
-$routes->add('/employee/addEmployee', 'EmployeeController::create');
-$routes->add('/employee/editEmployee', 'EmployeeController::edit');
-$routes->add('/employee/deleteEmployee', 'EmployeeController::delete');
+$routes->get('/dashboard', 'DashboardController::index', ['filter' => 'authfilter']);
+$routes->group("/users", ["filter" => "authfilter"], function($routes){
+    $routes->get('', 'UserController::index');
+    $routes->add('addUser', 'UserController::create');
+    $routes->add('editUser', 'UserController::edit');
+    $routes->add('deleteUser', 'UserController::delete');
+});
+$routes->group("/employee", ["filter" => "authfilter"], function($routes){
+    $routes->get('', 'EmployeeController::index');
+    $routes->add('addEmployee', 'EmployeeController::create');
+    $routes->add('editEmployee', 'EmployeeController::edit');
+    $routes->add('deleteEmployee', 'EmployeeController::delete');
+});

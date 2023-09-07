@@ -8,6 +8,14 @@
   <!-- Custom scripts for all pages-->
   <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
 
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $.when($(".alert").fadeIn().delay(3000).fadeOut()).done(function() {
+      <?php unset($_SESSION['message']); ?>
+    });
+  });
+  </script>
+
 </body>
 
 </html>

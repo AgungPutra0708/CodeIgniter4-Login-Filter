@@ -16,7 +16,11 @@ class EmployeeController extends BaseController
             $data['users'] = $users->findAll();
             $data['employee'] = $employee->findAll();
             $data['title'] = 'Employee';
-            return view('employee/index', $data);
+            return view('template/header', $data)
+            .view('template/sidebar', $data)
+            .view('template/topbar', $data)
+            .view('employee/index', $data)
+            .view('template/footer');
         }else{
             return redirect('/');
         }
@@ -33,7 +37,7 @@ class EmployeeController extends BaseController
             $employee = new EmployeeModel();
             $validationFile =  \Config\Services::validation();
             $validationFile->setRules([
-                'file_upload' => 'uploaded[file_upload]',
+                'file_upload' => 'uploaded[file_upload]|mime_in[file_upload,image/jpg,image/jpeg,image/gif,image/png]|max_size[file_upload,300]',
             ]);
             $isDataValidFile = $validationFile->withRequest($this->request)->run();
             if ($isDataValidFile) {
@@ -77,7 +81,7 @@ class EmployeeController extends BaseController
         if($isDataValid){
             $validationFile =  \Config\Services::validation();
             $validationFile->setRules([
-                'file_upload' => 'uploaded[file_upload]',
+                'file_upload' => 'uploaded[file_upload]|mime_in[file_upload,image/jpg,image/jpeg,image/gif,image/png]|max_size[file_upload,300]',
             ]);
             $isDataValidFile = $validationFile->withRequest($this->request)->run();
             if ($isDataValidFile) {

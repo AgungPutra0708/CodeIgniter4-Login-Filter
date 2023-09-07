@@ -1,5 +1,3 @@
-
-<?= $this->include('template/auth_header') ?>
   <div class="container">
 
     <!-- Outer Row -->
@@ -16,6 +14,11 @@
                     <div class="text-center">
                       <h1 class="h4 mb-4 rum" style="color: #66A076;margin-top: 20px">Login</h1>
                     </div>
+                    <?php if (!empty(session()->getFlashdata('message'))) : ?>
+                    <div class="alert alert-warning" role="alert">
+                        <?php echo session()->getFlashdata('message'); ?>
+                    </div>
+                    <?php endif; ?>
                   <form class="user" method="post" action="<?= base_url('/auth'); ?>">
                     <div class="form-group">
                       <input type="text" class="form-control form-control-user" id="username" aria-describedby="emailHelp" placeholder="Masukan username anda ..." name="username">

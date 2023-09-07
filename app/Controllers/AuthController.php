@@ -11,7 +11,9 @@ class AuthController extends BaseController
     {
         if (session()->get('username') == '') {
             $data['title'] = 'Login';
-            return view('auth/login', $data);
+            return view('template/auth_header.php', $data)
+            .view('auth/login', $data)
+            .view('template/auth_footer.php');
         }else{
             return redirect('dashboard');
         }
@@ -32,11 +34,11 @@ class AuthController extends BaseController
                     ]);
                     return redirect('dashboard');
                 } else {
-                    session()->setFlashdata('error', 'Username & Password Salah');
+                    session()->setFlashdata('message', 'Username & Password Salah');
                     return redirect()->back();
                 }
             } else {
-                session()->setFlashdata('error', 'Username & Password Salah');
+                session()->setFlashdata('message', 'Username & Password Salah');
                 return redirect()->back();
             }
     }

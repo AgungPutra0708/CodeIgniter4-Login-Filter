@@ -1,6 +1,3 @@
-<?= $this->include('template/header') ?>
-<?= $this->include('template/sidebar') ?>
-<?= $this->include('template/topbar') ?>
 <div class="container">
 	<h5>Employee Data</h5>
 	<div class="form-group">
@@ -147,5 +144,3 @@
 		</div>
 	</div>
 	<?php endforeach; ?>
-	
-	<?= $this->include('template/footer') ?>

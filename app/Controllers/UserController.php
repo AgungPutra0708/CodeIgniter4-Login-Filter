@@ -17,7 +17,11 @@ class UserController extends BaseController
             $data['users'] = $users->findAll();
             $data['employee'] = $employee->findAll();
             $data['title'] = 'User';
-            return view('user/index', $data);
+            return view('template/header', $data)
+            .view('template/sidebar', $data)
+            .view('template/topbar', $data)
+            .view('user/index', $data)
+            .view('template/footer');
         }else{
             return redirect('/');
         }
